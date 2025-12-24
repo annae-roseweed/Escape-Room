@@ -14,7 +14,10 @@ public class Player {
     public void goBack(){
         moveHistory.pop();
     }
-
+    public Room getCurrentRoom(){
+        return moveHistory.peek();
+    
+    }
     public boolean hasKey(){ //Find if the inventory of the player has at least a key
         for (Item i : inventory){
             if (i.getType().toUpperCase().equals("KEY")) return true;
