@@ -25,6 +25,7 @@ public class Room extends GameComponent {
         return isExit;
     }
 
+
     public void look() {
         System.out.println("Room: " + name);
         for (GameComponent gc : contents) {
