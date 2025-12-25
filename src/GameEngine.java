@@ -45,7 +45,7 @@ public class GameEngine {
             case "INTERACT":
                 // 4 cases: tool, key, hint, puzzle
                 boolean On = true;
-                int tries = 0;
+                int tries = 0; //reset the tries for the other puzzles
                 p.getCurrentRoom().look();
                 do{
                 System.out.println("Type the name of the item you want to pick: (Type out ");
@@ -70,16 +70,16 @@ public class GameEngine {
                             if(puzzle.attemptSolve(ans)){
                                 queueCount++;
                                 hintQueue.clear(); //remove the hint of the completed puzzle
-
                             }
                             System.out.println("Congrat! You solved it!");
+
                         } catch (InvalidPuzzleAnswerException e) {
                             System.out.println(e.getMessage());
                             tries++;
                         }
 
-                        if (tries % 3 == 0 && !hintQueue.isEmpty() && tries != 0){
-                            hintQueue.add(puzzle.getHint()); //dequeue puzzle own hint to the general hintqueue
+                        if (tries % 3 == 0 && !hintQueue.isEmpty() && queueCount != 0){
+                            hintQueue.add(puzzle.getHint()); //dequeue puzzle own hint to the general hintqueue 
                             tries--;
                         }
                         
