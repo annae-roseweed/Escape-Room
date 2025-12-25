@@ -13,6 +13,11 @@ public class Room extends GameComponent {
         contents = new ArrayList<>();
         connectedRooms = new ArrayList<>();
     }
+    
+    public void addSubRoom(Room sr) {
+        this.contents.add(sr);
+        sr.connectedRooms.add(this);
+    }
 
     public void addComponent(GameComponent gc) {
         contents.add(gc);
