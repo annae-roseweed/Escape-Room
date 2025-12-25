@@ -1,6 +1,6 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.Scanner;
 public class GameEngine {
     private ArrayList<Room> map;
     private Queue<String> hintQueue;
@@ -43,8 +43,8 @@ public class GameEngine {
                 //Key
                 // 4 cases: tool, key, hint, puzzle
                 String gp = scan.nextLine();
-                if (gp == "KEY" || gp == "TOOL" || gp == "HINT" || gp == "PUZZLE") { //check the input
-                    if (gp == "KEY" || gp == "TOOL" || gp == "HINT"){  //item case
+                if ("KEY".equals(gp) || "TOOL".equals(gp) || "HINT".equals(gp) || "PUZZLE".equals(gp)) { //check the input
+                    if ("KEY".equals(gp) || "TOOL".equals(gp) || "HINT".equals(gp)){  //item case
                     if(p.getCurrentRoom().containsItemRecursive(gp)) p.pickUpItem(gp);
                     }
                     else {

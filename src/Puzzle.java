@@ -4,7 +4,7 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
     private int difficulty;
     private boolean isSolved;
     private String content;
-    private Dequeue<String> hints; //store the hints of puzzle
+    private Queue<String> hints; //store the hints of puzzle
 
 
     public Puzzle(String name, int difficulty, String content) {
@@ -12,7 +12,7 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
         this.difficulty = difficulty;
         this.content = content;
         isSolved = false;
-        hints 
+        hints = new ArrayDeque<>();
     }
 
     public void addHint(String input){ //add hint to the hints queue
