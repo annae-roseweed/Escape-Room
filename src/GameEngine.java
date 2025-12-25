@@ -23,7 +23,7 @@ public class GameEngine {
         p.moveTo(map.get(0)); //start game
         }
     }
-    public void processCommand(String cmd){
+    public void processCommand(String cmd) throws InvalidCommandException{
         //player does puzzle, move here
         //"Choose your option.");
         //"1.Go to the next room\n2.Go back\n3.Interact with game component on the room\n4.Search connected rooms.");
@@ -57,7 +57,7 @@ public class GameEngine {
                 //explore subroom, do the process the same as the above
             
             default:
-                System.out.println("Invalid input.");
+                throw new InvalidCommandException("Invalid.");
         }
     }
 

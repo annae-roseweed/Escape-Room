@@ -1,19 +1,21 @@
 public class Calculate extends Puzzle {
-
-    public Calculate(String name, int difficulty, String content) {
+    private double answer;
+    public Calculate(String name, int difficulty, String content, double answer) {
         super(name, difficulty, content);
+        this.answer = answer;
     }
     @Override
     public boolean attemptSolve(String input){
         if(input.contains("-") || input.contains("_")) 
             throw new IllegalArgumentException("Only accept positive number"); 
-
+        while(!isIsSolved()){
         try{
-            Double.valueOf(input);
-            throw new IllegalArgumentException("Only type a number");
-            
+            double attempt = Double.parseDouble(input);
+            boolean correct = attempt == answer;
         }catch (NumberFormatException e) {
-            return true;
+            System.out.println("Error: Wrong number format.");
+} catch()
 }
+    return true;
 }
 }
