@@ -3,30 +3,17 @@ public class Code extends Puzzle {
     public Code(String name, int difficulty, String content, String key) {
         super(name, difficulty, content, key);
     }
-    @Override 
-    public boolean attemptSolve(String input) { //only accept single digit num
-        if (input.contains(".")) {
-            throw new IllegalArgumentException("Bro has to type integer value!");
-        }
-    
+    @Override
+    public boolean attemptSolve(String input) throws InvalidPuzzleAnswerException{
+        int attempt;
         try {
-            //convert input to int type
-            int number = Integer.parseInt(input);
-    
-            //range of output check
-            if (number < 0 || number > 9) {
-                throw new IllegalArgumentException(
-                    "Only type the single digit number bro!"
-                );
+        attempt = Integer.parseInt(input);
+        } catch (NumberFormatException e) { throw new InvalidPuzzleAnswerException("Must enter a number.\n"); }
+            if (attempt > 9 || attempt < 0) throw new InvalidPuzzleAnswerException("Must enter a single-digit number between 0 and 9.\n");
+            else if (attempt != Integer.parseInt(getKey())){
+            throw new InvalidPuzzleAnswerException("The answer is incorrect!\n");
             }
-    
-            return true;
-    
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException(
-                "Bro must enter a number."
-            );
-        }
-    }
+        else return true;
+}
     
 }

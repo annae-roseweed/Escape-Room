@@ -1,11 +1,11 @@
-import java.util.Queue;
 import java.util.ArrayDeque;
+import java.util.Queue;
 public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>  {
-    private int difficulty;
-    private boolean isSolved;
-    private String content;
-    private String key;
-    private Queue<String> hints; //store the hints of puzzle
+    protected int difficulty;
+    protected boolean isSolved;
+    protected String content;
+    protected String key;
+    protected Queue<String> hints; //store the hints of puzzle
 
 
     public Puzzle(String name, int difficulty, String content, String key) {
@@ -41,7 +41,6 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
     public void inspect(){
         System.out.print("PUZZLE\nDifficulty: " + difficulty + "\t" + "Complete: " + (isSolved ? "No" : "Yes") + "\n" + content);
     }
-
-    public abstract boolean attemptSolve(String answer);
+    public abstract boolean attemptSolve(String answer) throws InvalidPuzzleAnswerException;
 }
 
