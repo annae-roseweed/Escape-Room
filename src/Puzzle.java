@@ -32,6 +32,10 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
         return isSolved;
     }
 
+    public String getHint(){
+        return hints.remove(); //return ref then remove out of the queue
+    }
+
     @Override 
     public int compareTo(Puzzle rhs){
         return this.difficulty - rhs.difficulty;
