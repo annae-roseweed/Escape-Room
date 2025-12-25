@@ -23,11 +23,11 @@ public class GameEngine {
         p.moveTo(map.get(0)); //start game
         }
     }
-    public void processCommand(String cmd){
+    public void processCommand(String cmd) throws InvalidCommandException{
         //player does puzzle, move here
         //"Choose your option.");
         //"1.Go to the next room\n2.Go back\n3.Interact with game component on the room\n4.Search connected rooms.");
-        //Op 1 as GO, 2 as BACK, 3 as INTERACT, 4 as search connected room, default is INTERACT
+        //Op 1 as GO, 2 as BACK, 3 as INTERACT, 4 as search connected room, default is throw InvalidCommandException
         if (winConditionCheck()){
             //Player reach the deepest room, then command invalid
             return;
@@ -50,11 +50,11 @@ public class GameEngine {
                 String gp = scan.nextLine();
 
                 for (GameComponent a : p.getCurrentRoom().getContents()){
-                    if (a.getName() == gp && a instanceof Item){ //only can pick up item
+                    if (a.getName().equals(gp) && a instanceof Item){ //only can pick up item
                         p.pickUpItem(gp);
                     }
                     
-                    else if (a.getName() == gp && a instanceof Puzzle puzzle){
+                    else if (a.getName().equals(gp) && a instanceof Puzzle puzzle){
                         if(puzzle.getIsSolved() == true){
                             System.out.println("This puzzle's already solved.");
                             On = false;
@@ -76,7 +76,7 @@ public class GameEngine {
                 //explore subroom, do the process the same as the above
             
             default:
-                System.out.println("Invalid input.");
+                throw new InvalidCommandException("Invalid input.\n");
         }
     }
 
