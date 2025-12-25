@@ -1,7 +1,7 @@
 public class Calculate extends Puzzle {
 
-    public Calculate(String name, int difficulty, String content) {
-        super(name, difficulty, content);
+    public Calculate(String name, int difficulty, String content, String key) {
+        super(name, difficulty, content, key);
     }
     @Override
     public boolean attemptSolve(String input){

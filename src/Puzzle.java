@@ -4,10 +4,11 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
     private int difficulty;
     private boolean isSolved;
     private String content;
+    private String key;
     private Queue<String> hints; //store the hints of puzzle
 
 
-    public Puzzle(String name, int difficulty, String content) {
+    public Puzzle(String name, int difficulty, String content, String key) {
         super(name);
         this.difficulty = difficulty;
         this.content = content;
@@ -19,12 +20,16 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
         hints.add(input);
     }
 
-    public String addForUse(){
-        //hints.
+    public String getKey(){
+        return key;
     }
 
     public String getContent(){
         return content; 
+    }
+
+    public boolean getIsSolved(){
+        return isSolved;
     }
 
     @Override 

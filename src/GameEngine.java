@@ -42,37 +42,33 @@ public class GameEngine {
 
             case "INTERACT":
                 // 4 cases: tool, key, hint, puzzle
-                boolean On = false;
+                boolean On = true;
                 p.getCurrentRoom().look();
                 do{
-                System.out.println("Type the name of the item you want to pick");
+                System.out.println("Type the name of the item you want to pick: (Type out ");
 
                 String gp = scan.nextLine();
+
                 for (GameComponent a : p.getCurrentRoom().getContents()){
                     if (a.getName() == gp && a instanceof Item){ //only can pick up item
                         p.pickUpItem(gp);
                     }
-                    else if (a.getName() == gp && a instanceof Puzzle){
-                        a.inspect();
+                    
+                    else if (a.getName() == gp && a instanceof Puzzle puzzle){
+                        if(puzzle.getIsSolved() == true){
+                            System.out.println("This puzzle's already solved.");
+                            On = false;
+                        }
+
+                        puzzle.inspect();
                         System.out.println("Pls enter your answer: ");
-                        if (a instanceof Code){
-                            Code code = (Code)a;
-                            if(code.attemptSolve(gp)) ;
-                        }
-                        if (a instanceof Code){
-                            Riddle code = (Riddle)a;
-                            if(code.attemptSolve(gp));
-                        }
-                        if (a instanceof Code){
-                            Calculate code = (Calculate)a;
-                            if(code.attemptSolve(gp));
+                        String ans = scan.nextLine();
+                        if(puzzle.attemptSolve(ans))
+                            System.out.println("Congrat! You solved it!");
+                        
                         }
                         
                     }
-                    else 
-
-                    ;
-                }
             }while (On == false);
 
 
@@ -83,6 +79,7 @@ public class GameEngine {
                 System.out.println("Invalid input.");
         }
     }
+
 
     public void printStatus(Player p){
         System.out.println(p.getCurrentRoom() + "/" + cap); //show the current position of the player
