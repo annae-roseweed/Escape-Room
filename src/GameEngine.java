@@ -23,7 +23,7 @@ public class GameEngine {
         p.moveTo(map.get(0)); //start game
         }
     }
-    public void processCommand(String cmd) throws InvalidCommandException{
+    public void processCommand(String cmd){
         //player does puzzle, move here
         //"Choose your option.");
         //"1.Go to the next room\n2.Go back\n3.Interact with game component on the room\n4.Search connected rooms.");
@@ -35,29 +35,40 @@ public class GameEngine {
         switch(cmd){
             case "GO":
                 p.moveTo(map.get(0));
+
             case "BACK":
                 map.add(0, p.getCurrentRoom()); //bring back the room to the map
                 p.goBack();
+
             case "INTERACT":
-                //Tôi đang nghĩ kiểu vl, thay vì cho thằng player thấy component rồi thích gì tương tác lấy, thầy bắt search xem cái item nó có không wtf
-                //Key
                 // 4 cases: tool, key, hint, puzzle
+                boolean On = false;
+                p.getCurrentRoom().look();
+                do{
+                System.out.println("Type the name of the item you want to pick");
+
                 String gp = scan.nextLine();
-                if ("KEY".equals(gp) || "TOOL".equals(gp) || "HINT".equals(gp) || "PUZZLE".equals(gp)) { //check the input
-                    if ("KEY".equals(gp) || "TOOL".equals(gp) || "HINT".equals(gp)){  //item case
-                    if(p.getCurrentRoom().containsItemRecursive(gp)) p.pickUpItem(gp);
+                for (GameComponent a : p.getCurrentRoom().getContents()){
+                    if (a.getName() == gp && a instanceof Item){ //only can pick up item
+                        p.pickUpItem(gp);
                     }
-                    else {
-                        // giải đố momento
-                        //update hintQueue 
+                    else if (a.getName() == gp && a instanceof Puzzle){
+                        a.inspect();
+                        System.out.println("Pls enter your answer: ");
                         
                     }
+                    else 
+
+                    ;
                 }
+            }while (On == false);
+
+
             case "SUB":
                 //explore subroom, do the process the same as the above
             
             default:
-                throw new InvalidCommandException("Invalid.");
+                System.out.println("Invalid input.");
         }
     }
 

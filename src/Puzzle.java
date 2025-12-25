@@ -20,7 +20,11 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
     }
 
     public String addForUse(){
-        hints.
+        //hints.
+    }
+
+    public String getContent(){
+        return content; 
     }
 
     @Override 
@@ -34,9 +38,5 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
     }
 
     public abstract boolean attemptSolve(String answer);
-
-    public boolean isIsSolved() {
-        return isSolved;
-    }
 }
 
