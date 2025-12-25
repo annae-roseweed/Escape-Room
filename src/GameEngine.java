@@ -7,11 +7,13 @@ public class GameEngine {
     private int cap;
     private Player p;
     private Scanner scan;
+    private int queueCount;
 
     GameEngine(Player p, int cap){
         p = new Player();
         this.cap = cap;
         scan = new Scanner(System.in);
+        queueCount = 0;
     }
 
     public void start(int cap){
@@ -43,6 +45,7 @@ public class GameEngine {
             case "INTERACT":
                 // 4 cases: tool, key, hint, puzzle
                 boolean On = true;
+                int tries = 0;
                 p.getCurrentRoom().look();
                 do{
                 System.out.println("Type the name of the item you want to pick: (Type out ");
@@ -63,8 +66,23 @@ public class GameEngine {
                         puzzle.inspect();
                         System.out.println("Pls enter your answer: ");
                         String ans = scan.nextLine();
-                        if(puzzle.attemptSolve(ans))
+                        try {
+                            if(puzzle.attemptSolve(ans)){
+                                queueCount++;
+                                hintQueue.clear(); //remove the hint of the completed puzzle
+
+                            }
                             System.out.println("Congrat! You solved it!");
+                        } catch (InvalidPuzzleAnswerException e) {
+                            System.out.println(e.getMessage());
+                            tries++;
+                        }
+
+                        if (tries % 3 == 0 && !hintQueue.isEmpty() && tries != 0){
+                            hintQueue.add(puzzle.getHint()); //dequeue puzzle own hint to the general hintqueue
+                            tries--;
+                        }
+                        
                         
                         }
                         
