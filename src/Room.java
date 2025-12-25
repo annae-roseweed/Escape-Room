@@ -5,6 +5,7 @@ public class Room extends GameComponent {
     private ArrayList<GameComponent> contents;
     private ArrayList<Room> connectedRooms;
     private boolean isExit;
+    private boolean requiresKey;
 
     public Room(String name, boolean isExit) {
         super(name);
@@ -29,9 +30,16 @@ public class Room extends GameComponent {
         return contents;
     }
 
+    public boolean requiresKey(){
+        return requiresKey;
+    }
+      
 
     public void look() {
         System.out.println("Room: " + name);
+        if (requiresKey) {
+            System.out.println("This room requires a key to enter.");
+        }
         for (GameComponent gc : contents) {
             gc.inspect();
             System.out.println();
