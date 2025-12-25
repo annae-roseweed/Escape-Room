@@ -45,7 +45,7 @@ public class GameEngine {
                 boolean On = true;
                 p.getCurrentRoom().look();
                 do{
-                System.out.println("Type the name of the item you want to pick: (Type out ");
+                System.out.println("Type the name of the item you want to pick: (Type out) ");
 
                 String gp = scan.nextLine();
 
