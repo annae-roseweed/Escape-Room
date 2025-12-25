@@ -1,7 +1,7 @@
 public class Code extends Puzzle {
 
-    public Code(String name, int difficulty) {
-        super(name, difficulty);
+    public Code(String name, int difficulty, String content) {
+        super(name, difficulty, content);
     }
     @Override 
     public boolean attemptSolve(String input) { //only accept single digit num

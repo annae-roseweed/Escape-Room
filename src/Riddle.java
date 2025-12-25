@@ -1,8 +1,8 @@
 
 public class Riddle extends Puzzle{
 
-    public Riddle(String name, int difficulty) {
-        super(name, difficulty);
+    public Riddle(String name, int difficulty, String content) {
+        super(name, difficulty, content);
     }
     @Override
     public boolean attemptSolve(String input) { //only accept word or sentence 
