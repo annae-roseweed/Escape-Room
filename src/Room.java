@@ -25,11 +25,16 @@ public class Room extends GameComponent {
         return isExit;
     }
 
+    public ArrayList<GameComponent> getContents(){
+        return contents;
+    }
+
 
     public void look() {
         System.out.println("Room: " + name);
         for (GameComponent gc : contents) {
-            System.out.println("- " + gc.getName());
+            gc.inspect();
+            System.out.println();
         }
     }
     

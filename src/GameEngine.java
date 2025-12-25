@@ -55,6 +55,18 @@ public class GameEngine {
                     else if (a.getName() == gp && a instanceof Puzzle){
                         a.inspect();
                         System.out.println("Pls enter your answer: ");
+                        if (a instanceof Code){
+                            Code code = (Code)a;
+                            if(code.attemptSolve(gp)) ;
+                        }
+                        if (a instanceof Code){
+                            Riddle code = (Riddle)a;
+                            if(code.attemptSolve(gp));
+                        }
+                        if (a instanceof Code){
+                            Calculate code = (Calculate)a;
+                            if(code.attemptSolve(gp));
+                        }
                         
                     }
                     else 
