@@ -15,7 +15,12 @@ public class GameEngine {
         scan = new Scanner(System.in);
         queueCount = 0;
     }
-
+    private Room room1 = new Room("Backroom 1", false);
+    private Room room2 = new Room("Backroom 2", false);
+    private Room room3 = new Room("Backroom 3", false);
+    private Room room4 = new Room("Backroom 4", false);
+    private Room room5 = new Room("Backroom 5", true);
+    
     public void start(int cap){
         if(map.size() != cap){
             return; //The map is incomplete
