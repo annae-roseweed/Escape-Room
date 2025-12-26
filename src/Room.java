@@ -7,6 +7,7 @@ public class Room extends GameComponent {
     private boolean isExit;
     private boolean requiresKey;
     private boolean Mark;
+    private String requiredKeyName = null;
 
     public Room(String name, boolean isExit) {
         super(name);
@@ -16,6 +17,15 @@ public class Room extends GameComponent {
         requiresKey = false;
         Mark = false;
     }
+    
+    public void setRequiredKey(String keyName) {
+    requiredKeyName = keyName;
+    requiresKey = true;
+}
+
+public String getRequiredKeyName() {
+    return requiredKeyName;
+}
     
     public void addSubRoom(Room sr) {
         this.contents.add(sr);
@@ -73,13 +83,26 @@ public class Room extends GameComponent {
     
     // 1. Recursive traversal
     public void exploreRecursive(int depth) {
-        System.out.println("  ".repeat(depth) + name);
-        for (GameComponent gc : contents) {
-            if (gc instanceof Room) {
-                ((Room) gc).exploreRecursive(depth + 1);
-            }
+    if (Mark) return; // already visited
+    Mark = true;
+
+    // Print the room name with indentation
+    System.out.println("  ".repeat(depth) + name);
+
+    // Recurse through sub-rooms
+    for (GameComponent gc : contents) {
+        if (gc instanceof Room subRoom) {
+            subRoom.exploreRecursive(depth + 1);
         }
     }
+
+    // Recurse through connected rooms
+    for (Room conn : connectedRooms) {
+        conn.exploreRecursive(depth + 1);
+    }
+
+    Mark = false; // reset for future calls
+}
 
     // 2. Recursive search for item
     public boolean containsItemRecursive(String itemName) {

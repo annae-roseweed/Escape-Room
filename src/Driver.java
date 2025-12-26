@@ -24,13 +24,13 @@ public class Driver {
     room2.addComponent(key);
     room3.addComponent(clue1);
     room2.addComponent(statue);
-    
-    GameEngine engine = new GameEngine(you);
-    engine.mapInit(room1);
-    engine.mapInit(room2);
-    engine.mapInit(room3);
-    engine.mapInit(room4);
-    engine.mapInit(room5);
+
+    room1.connectRoom(room2);
+    room2.connectRoom(room3);
+    room3.connectRoom(room4);
+    room4.connectRoom(room5);
+
+    GameEngine engine = new GameEngine(you, room1);
     engine.run();
 
     }

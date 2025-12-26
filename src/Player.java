@@ -20,8 +20,8 @@ public class Player {
     }
 
     public void moveTo(Room r){
-
         moveHistory.push(r);
+        currentRoom = r;
     }
 
     public void goBack(){
@@ -35,11 +35,40 @@ public class Player {
     
     }
 
-    public void useKey(){
-        if(hasKey()){
-        inventory.remove(0);
+    public boolean hasKey(String keyName) {
+    for (Item i : inventory) {
+        if (i.getType().equalsIgnoreCase("KEY") && i.getName().equalsIgnoreCase(keyName)) {
+            return true;
         }
     }
+    return false;
+}
+    
+    public void useKey(String keyName) {
+    // Remove the first matching key with this name from inventory
+    for (int i = 0; i < inventory.size(); i++) {
+        Item item = inventory.get(i);
+        if (item.getType().equalsIgnoreCase("KEY") && item.getName().equalsIgnoreCase(keyName)) {
+            inventory.remove(i);
+            return;
+        }
+    }
+}
+
+    public void sortInventory() {
+    for (int i = 0; i < inventory.size() - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < inventory.size(); j++) {
+            if (inventory.get(j).compareTo(inventory.get(minIndex)) < 0) {
+                minIndex = j;
+            }
+        }
+        Item temp = inventory.get(i);
+        inventory.set(i, inventory.get(minIndex));
+        inventory.set(minIndex, temp);
+    }
+}
+
     public void printInventory(){
         if (!inventory.isEmpty()){
         System.out.println("INVENTORY:");
@@ -55,22 +84,26 @@ public class Player {
         return false;
     }
 
-    public void pickUpItem(String name) throws InvalidCommandException{
-        for (Item i: inventory){
-            if(i.getName().equals(name)) {
-                throw new InvalidCommandException("Item already exists.\n");
-            }
-            else {
-                for (GameComponent content : currentRoom.getContents()) {
-                if (content.getName().equals(name)) {
-                    Item item = (Item) content;
-                    item.collect(this); 
-                    inventory.add(item);}
-                }
-            }
-        throw new InvalidCommandException("Item does NOT exist.\n");
+   public void pickUpItem(String name) throws InvalidCommandException {
+    // Check if the player already has the item
+    for (Item i : inventory) {
+        if (i.getName().equalsIgnoreCase(name)) {
+            throw new InvalidCommandException("You already have this item: " + name);
         }
-        
     }
-    
+
+    // Search for the item in the current room
+    for (GameComponent gc : currentRoom.getContents()) {
+        if (gc instanceof Item item && item.getName().equalsIgnoreCase(name)) {
+            inventory.add(item);               // Add to inventory
+            currentRoom.getContents().remove(item); // Remove from room
+            System.out.println("Picked up: " + item.getName());
+            return;
+        }
+    }
+
+    // Item not found
+    throw new InvalidCommandException("Item does NOT exist in this room: " + name);
+}
+
 }
