@@ -6,6 +6,7 @@ public class Room extends GameComponent {
     private ArrayList<Room> connectedRooms;
     private boolean isExit;
     private boolean requiresKey;
+    private boolean Mark;
 
     public Room(String name, boolean isExit) {
         super(name);
@@ -13,6 +14,7 @@ public class Room extends GameComponent {
         contents = new ArrayList<>();
         connectedRooms = new ArrayList<>();
         requiresKey = false;
+        Mark = false;
     }
     
     public void addSubRoom(Room sr) {
@@ -23,6 +25,14 @@ public class Room extends GameComponent {
 
     public void addComponent(GameComponent gc) {
         contents.add(gc);
+    }
+
+    public boolean getMark(){
+        return Mark;
+    }
+
+    public void setMark(boolean mark){
+        this.Mark = mark;
     }
 
     public void connectRoom(Room r) {

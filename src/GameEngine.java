@@ -17,6 +17,7 @@ public class GameEngine {
     {
         map.add(r);
     }
+
     public void start(int cap){
         if(map.size() != cap){
             return; //The map is incomplete 
@@ -24,18 +25,21 @@ public class GameEngine {
         }
         else{
         p.moveTo(map.get(0)); //start game
+        map.remove(0);
+        
         }
     }
+
 //MAIN GAME LOOP
     public void run() {
         System.out.println("Welcome to the Backrooms.");
-        start(5);
+        start(7);
         
 
         while (!winConditionCheck()) {
             printStatus(p);
             System.out.print("> ");
-            System.out.println("Pls type your choice: GO, BACK, INTERACT, INVENTORY, LOOK");
+            System.out.println("Pls type your choice: GO, BACK, INTERACT, INVENTORY, LOOK, SUB");
 
             String cmd = scan.nextLine().toUpperCase();
 
@@ -64,6 +68,10 @@ public class GameEngine {
         }
         switch(cmd){
             case "GO":
+                if (p.getCurrentRoom().getMark() == true) {
+                    System.out.println("You are in subroom, can move the other main room, pls choose other option!");
+                    break;
+                }
                 if(map.get(0).requiresKey()){
                     System.out.println("This room requires a key to enter.");
                     if(p.hasKey()){
@@ -78,11 +86,12 @@ public class GameEngine {
                 }
                 p.moveTo(map.get(0));
                 map.remove(0);
-                
+
 
                 break;
 
             case "BACK":
+                if (p.getCurrentRoom().getMark() == true) p.getCurrentRoom().setMark(false); //unmark ->Player can enter the main rooms again
                 map.add(0, p.getCurrentRoom()); //bring back the room to the map
                 p.goBack();
                 break;
@@ -121,7 +130,7 @@ public class GameEngine {
                                 hintQueue.clear(); //remove the hint of the completed puzzle out of the hintQueue
                                 On = false;
                             }
-                            System.out.println("Congrat! You solved it!");
+                            System.out.println("Congrats! You solved it!");
                             break;
 
                         } catch (InvalidPuzzleAnswerException e) {
@@ -142,11 +151,46 @@ public class GameEngine {
 
 
             case "SUB":
+                if (p.getCurrentRoom().getMark() == false) {
+                    if(p.getCurrentRoom().getConnectedRooms().size() == 0){ //if the room has subroom or player's in subroom 
+                    System.out.println("This room doesn't any sub room");
+                    break;
+                }
+                }
                 //explore subroom, do the process the same as the above
+                int num;
+                System.out.println("Pls type the number of subroom you want to go (On range)");
+                do{
+                    num = scan.nextInt() - 1;
+                }while (num > p.getCurrentRoom().getConnectedRooms().size());
+
+                if(p.getCurrentRoom().getConnectedRooms().get(num).requiresKey()){
+                    System.out.println("This room requires a key to enter.");
+                    if(p.hasKey()){
+                        p.getCurrentRoom().getConnectedRooms().get(num).unlock();
+                        p.useKey();
+                        System.out.println("Unlock successfully!");
+                    }
+                    else{
+                        System.out.println("You don't have the required key!");
+                        break; 
+                    }
+                }
+                System.out.println("You enter the subroom successfully!");
+
+
+                p.getCurrentRoom().setMark(true);
+                p.moveTo(p.getCurrentRoom().getConnectedRooms().get(num)); //push sub to historyMove
+                p.getCurrentRoom().getConnectedRooms().remove(num); //remove the targeted sub out of connectedRoom list
+                p.getCurrentRoom().setMark(true);
+
+                break;
+
             case "INVENTORY":
                 p.printInventory();
                 break;
             case "MAP":
+                p.getCurrentRoom().exploreRecursive(0);
             case "LOOK": 
                 p.getCurrentRoom().look();
                 break;

@@ -5,18 +5,13 @@ public class Driver {
     Room room3 = new Room("Backroom 3", false);
     Room room4 = new Room("Backroom 4", false);
     Room room5 = new Room("Backroom 5", true);
-    Room rRoom2 = new Room("Backroom of Backroom 2", false);
+    Room rRoom21 = new Room("Backroom of Backroom 2 1", false);
+    Room rRoom22 = new Room("Backroom of Backroom 2 2", false);
     Room rRoom3 = new Room("Backroom of Backroom 3", false);
-    room2.addSubRoom(rRoom2);
+    room2.addSubRoom(rRoom21);
+    room2.addSubRoom(rRoom22);
     room3.addSubRoom(rRoom3);
-    // room1.connectRoom(room2);
-    // room2.connectRoom(room1);
-    // room2.connectRoom(room3);
-    // room3.connectRoom(room2);
-    // room3.connectRoom(room4);
-    // room4.connectRoom(room3);
-    // room4.connectRoom(room5);
-    // room5.connectRoom(room4);
+
     Player you = new Player();
     Item pen = new Item("Pen from the Void", 1, 2, true);
     Item key = new Item("Key from the Void", 1, 1, true);
