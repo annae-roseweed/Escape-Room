@@ -110,6 +110,8 @@ public class Room extends GameComponent {
 
     @Override
     public void inspect() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    String lockTag = requiresKey ? " (LOCKED)" : "";
+    String exitTag = isExit ? " (EXIT)" : "";
+    System.out.println("Room: " + name + exitTag + lockTag);
     }
 }

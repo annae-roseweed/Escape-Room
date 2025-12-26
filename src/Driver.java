@@ -8,15 +8,17 @@ public class Driver {
     Room rRoom21 = new Room("Backroom of Backroom 2 1", false);
     Room rRoom22 = new Room("Backroom of Backroom 2 2", false);
     Room rRoom3 = new Room("Backroom of Backroom 3", false);
+    Riddle binhngu = new Riddle("Binh ngu", 1, "Binh co ngu khong", "co");
+    room1.addComponent(binhngu);
     room2.addSubRoom(rRoom21);
     room2.addSubRoom(rRoom22);
     room3.addSubRoom(rRoom3);
 
     Player you = new Player();
-    Item pen = new Item("Pen from the Void", 1, 2, true);
-    Item key = new Item("Key from the Void", 1, 1, true);
-    Item clue1 = new Item("Clueless clue", 1, 3, true);
-    Item statue = new Item("Totally not heavy statue", 1, 2, false);
+    Item pen = new Item("pen", 1, 1, true);
+    Item key = new Item("Key from the Void", 1, 0, true);
+    Item clue1 = new Item("Clueless clue", 1, 2, true);
+    Item statue = new Item("Totally not heavy statue", 1, 1, false);
 
     room1.addComponent(pen);
     room2.addComponent(key);

@@ -1,9 +1,10 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
 public class GameEngine {
     private ArrayList<Room> map = new ArrayList<>();
-    private Queue<String> hintQueue;
+    private Queue<String> hintQueue = new ArrayDeque<>();
     private Player p;
     private Scanner scan;
     private int queueCount;
@@ -18,22 +19,16 @@ public class GameEngine {
         map.add(r);
     }
 
-    public void start(int cap){
-        if(map.size() != cap){
-            return; //The map is incomplete 
-            
-        }
-        else{
+    public void start(){
         p.moveTo(map.get(0)); //start game
         map.remove(0);
-        
         }
-    }
+    
 
 //MAIN GAME LOOP
     public void run() {
         System.out.println("Welcome to the Backrooms.");
-        start(7);
+        start();
         
 
         while (!winConditionCheck()) {
@@ -126,11 +121,11 @@ public class GameEngine {
                         String ans = scan.nextLine();
                         try {
                             if(puzzle.attemptSolve(ans)){
-                                queueCount++;
-                                hintQueue.clear(); //remove the hint of the completed puzzle out of the hintQueue
+                                System.out.println("Congrats! You solved it!");
+                                // queueCount++;
+                                // hintQueue.clear(); //remove the hint of the completed puzzle out of the hintQueue
                                 On = false;
                             }
-                            System.out.println("Congrats! You solved it!");
                             break;
 
                         } catch (InvalidPuzzleAnswerException e) {
@@ -148,9 +143,10 @@ public class GameEngine {
                         
                     }
             }while (On == true);
-
+            break;
 
             case "SUB":
+                Room motherRoom = p.getCurrentRoom();
                 if (p.getCurrentRoom().getMark() == false) {
                     if(p.getCurrentRoom().getConnectedRooms().size() == 0){ //if the room has subroom or player's in subroom 
                     System.out.println("This room doesn't any sub room");
@@ -158,16 +154,26 @@ public class GameEngine {
                 }
                 }
                 //explore subroom, do the process the same as the above
-                int num;
-                System.out.println("Pls type the number of subroom you want to go (On range)");
-                do{
-                    num = scan.nextInt() - 1;
-                }while (num > p.getCurrentRoom().getConnectedRooms().size());
+                int num, parsedNum;
+                int size = p.getCurrentRoom().getConnectedRooms().size();
 
+                while (true) {
+                    try {
+                        parsedNum = Integer.parseInt(scan.nextLine().strip());
+                        num = parsedNum - 1;
+
+                        if (num >= 0 && num < size) break;
+
+                        System.out.println("Out of range. Enter 1 to " + size + ".");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Please enter a number.");
+                    }
+                }
+                Room childRoom = motherRoom.getConnectedRooms().get(num);
                 if(p.getCurrentRoom().getConnectedRooms().get(num).requiresKey()){
                     System.out.println("This room requires a key to enter.");
                     if(p.hasKey()){
-                        p.getCurrentRoom().getConnectedRooms().get(num).unlock();
+                        childRoom.unlock();
                         p.useKey();
                         System.out.println("Unlock successfully!");
                     }
@@ -179,10 +185,9 @@ public class GameEngine {
                 System.out.println("You enter the subroom successfully!");
 
 
-                p.getCurrentRoom().setMark(true);
-                p.moveTo(p.getCurrentRoom().getConnectedRooms().get(num)); //push sub to historyMove
-                p.getCurrentRoom().getConnectedRooms().remove(num); //remove the targeted sub out of connectedRoom list
-                p.getCurrentRoom().setMark(true);
+                motherRoom.setMark(true);
+                p.moveTo(childRoom); //push sub to historyMove
+                motherRoom.getConnectedRooms().remove(num); //remove the targeted sub out of connectedRoom list
 
                 break;
 
@@ -191,6 +196,7 @@ public class GameEngine {
                 break;
             case "MAP":
                 p.getCurrentRoom().exploreRecursive(0);
+                break;
             case "LOOK": 
                 p.getCurrentRoom().look();
                 break;

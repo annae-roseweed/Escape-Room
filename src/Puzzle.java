@@ -12,6 +12,7 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
         super(name);
         this.difficulty = difficulty;
         this.content = content;
+        this.key = key;
         isSolved = false;
         hints = new ArrayDeque<>();
     }

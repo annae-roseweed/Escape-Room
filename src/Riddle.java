@@ -6,9 +6,9 @@ public class Riddle extends Puzzle{
     }
 
     @Override
-    public boolean attemptSolve(String input) throws InvalidPuzzleAnswerException { //only accept word or sentence 
-        if (!input.equalsIgnoreCase(getKey())) throw new InvalidPuzzleAnswerException("Incorrect!");
-        else return true;
+    public boolean attemptSolve(String input) throws InvalidPuzzleAnswerException { //only accept word or sentence
+        if (input.equalsIgnoreCase(getKey())) return true;
+        else throw new InvalidPuzzleAnswerException("Incorrect!");
     }
     
 }
