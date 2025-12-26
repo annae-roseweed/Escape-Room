@@ -1,3 +1,3 @@
 public interface Collectable {
-    void collect(Player p);
+    void collect(Player p) throws InvalidCommandException;
 }

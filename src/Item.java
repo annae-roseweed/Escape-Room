@@ -3,7 +3,8 @@ public class Item extends GameComponent implements Collectable, Comparable<Item>
 
     private int value;
     private String itemType; //key, tool, clue
-    public Item(String name,int value, int typeID) {
+    private boolean collectible;
+    public Item(String name,int value, int typeID, boolean collectible) {
         super(name);
         this.value = value;
         switch (typeID) {
@@ -12,10 +13,12 @@ public class Item extends GameComponent implements Collectable, Comparable<Item>
             case 2 -> itemType = "CLUE";
             default -> throw new AssertionError();
         }
+        this.collectible = collectible;
     }
     @Override 
-    public void collect(Player p){ //implement collectable
-        
+    public void collect(Player p) throws InvalidCommandException{ //implement collectable
+        if(!isCollectible())
+            throw new InvalidCommandException("This item can't be collected.\n");
     }
 
     @Override
@@ -27,6 +30,14 @@ public class Item extends GameComponent implements Collectable, Comparable<Item>
     @Override 
     public void inspect(){
         System.out.println("Item: " + getName() + "\n" + "itemType: " + itemType); 
+    }
+
+    public boolean isCollectible() {
+        return collectible;
+    }
+
+    public void setCollectible(boolean collectible) {
+        this.collectible = collectible;
     }
 
 

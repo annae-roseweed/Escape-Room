@@ -32,12 +32,20 @@ public class Player {
         return false;
     }
 
-    public void pickUpItem(String name){
+    public void pickUpItem(String name) throws InvalidCommandException{
         for (Item i: inventory){
             if(i.getName().equals(name)) {
-                System.out.println("Item already exists.");
-                return;
+                throw new InvalidCommandException("Item already exists.\n");
             }
+            else {
+                for (GameComponent content : currentRoom.getContents()) {
+                if (content.getName().equals(name)) {
+                    Item item = (Item) content;
+                    item.collect(this); 
+                    inventory.add(item);}
+                }
+            }
+        throw new InvalidCommandException("Item does NOT exist.\n");
         }
         
     }
