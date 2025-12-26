@@ -29,18 +29,25 @@ public class GameEngine {
 //MAIN GAME LOOP
     public void run() {
         System.out.println("Welcome to the Backrooms.");
+        start(5);
+        
 
         while (!winConditionCheck()) {
             printStatus(p);
             System.out.print("> ");
+            System.out.println("Pls type your choice: GO, BACK, INTERACT, INVENTORY, LOOK");
 
             String cmd = scan.nextLine().toUpperCase();
 
             try {
                 processCommand(cmd);
-            } catch (Exception e) {
+            } catch (InvalidPuzzleAnswerException e) {
+                System.out.println(e.getMessage());
+            } catch (InvalidCommandException e){
                 System.out.println(e.getMessage());
             }
+
+
         }
 
         System.out.println("You escaped. Game over.");
@@ -70,30 +77,39 @@ public class GameEngine {
                     }
                 }
                 p.moveTo(map.get(0));
+                map.remove(0);
+                
+
+                break;
 
             case "BACK":
                 map.add(0, p.getCurrentRoom()); //bring back the room to the map
                 p.goBack();
+                break;
 
             case "INTERACT":
                 // 4 cases: tool, key, hint, puzzle
                 boolean On = true;
                 int tries = 0; //reset the tries for the other puzzles
+
                 p.getCurrentRoom().look();
                 do{
-                System.out.println("Type the name of the item you want to pick: (Type out ");
+                System.out.println("Type the name of the item you want to pick: (Type out) ");
 
                 String gp = scan.nextLine();
 
                 for (GameComponent a : p.getCurrentRoom().getContents()){
                     if (a.getName().equals(gp) && a instanceof Item){ //only can pick up item
                         p.pickUpItem(gp);
+                        On = false;
+                        break;
                     }
                     
                     else if (a.getName().equals(gp) && a instanceof Puzzle puzzle){
                         if(puzzle.getIsSolved() == true){
                             System.out.println("This puzzle's already solved.");
                             On = false;
+                            break;
                         }
 
                         puzzle.inspect();
@@ -106,6 +122,7 @@ public class GameEngine {
                                 On = false;
                             }
                             System.out.println("Congrat! You solved it!");
+                            break;
 
                         } catch (InvalidPuzzleAnswerException e) {
                             System.out.println(e.getMessage());
@@ -114,7 +131,7 @@ public class GameEngine {
 
                         if (tries % 3 == 0 && !hintQueue.isEmpty() && queueCount != 0){
                             hintQueue.add(puzzle.getHint()); //dequeue puzzle own hint to the general hintqueue 
-                            tries--;
+                            queueCount--;
                         }
                         
                         
@@ -130,7 +147,9 @@ public class GameEngine {
                 p.printInventory();
                 break;
             case "MAP":
-            case "LOOK":
+            case "LOOK": 
+                p.getCurrentRoom().look();
+                break;
             default:
                 throw new InvalidCommandException("Invalid input.\n");
         }

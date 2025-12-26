@@ -14,12 +14,13 @@ public class Item extends GameComponent implements Collectable, Comparable<Item>
         }
         this.collectible = collectible;
     }
+    
     @Override 
     public void collect(Player p) throws InvalidCommandException{ //implement collectable
         if (!collectible){
             throw new InvalidCommandException("This item can't be collected.\n");
+        }
     }
-}
 
     @Override
     public int compareTo(Item rhs){

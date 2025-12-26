@@ -20,6 +20,7 @@ public class Player {
     }
 
     public void moveTo(Room r){
+
         moveHistory.push(r);
     }
 
