@@ -15,12 +15,7 @@ public class GameEngine {
         scan = new Scanner(System.in);
         queueCount = 0;
     }
-    private Room room1 = new Room("Backroom 1", false);
-    private Room room2 = new Room("Backroom 2", false);
-    private Room room3 = new Room("Backroom 3", false);
-    private Room room4 = new Room("Backroom 4", false);
-    private Room room5 = new Room("Backroom 5", true);
-    
+
     public void start(int cap){
         if(map.size() != cap){
             return; //The map is incomplete
@@ -41,6 +36,18 @@ public class GameEngine {
         }
         switch(cmd){
             case "GO":
+                if(map.get(0).requiresKey()){
+                    System.out.println("This room requires a key to enter.");
+                    if(p.hasKey()){
+                        map.get(0).unlock();
+                        p.useKey();
+                        System.out.println("Unlock successfully!");
+                    }
+                    else{
+                        System.out.println("You don't have the required key!");
+                        break; 
+                    }
+                }
                 p.moveTo(map.get(0));
 
             case "BACK":
@@ -74,7 +81,8 @@ public class GameEngine {
                         try {
                             if(puzzle.attemptSolve(ans)){
                                 queueCount++;
-                                hintQueue.clear(); //remove the hint of the completed puzzle
+                                hintQueue.clear(); //remove the hint of the completed puzzle out of the hintQueue
+                                On = false;
                             }
                             System.out.println("Congrat! You solved it!");
 
@@ -92,7 +100,7 @@ public class GameEngine {
                         }
                         
                     }
-            }while (On == false);
+            }while (On == true);
 
 
             case "SUB":
