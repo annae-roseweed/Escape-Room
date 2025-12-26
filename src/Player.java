@@ -18,6 +18,13 @@ public class Player {
         return moveHistory.peek();
     
     }
+
+    public void useKey(){
+        if(hasKey()){
+        inventory.remove(0);
+        }
+    }
+    
     public boolean hasKey(){ //Find if the inventory of the player has at least a key
         for (Item i : inventory){
             if (i.getType().toUpperCase().equals("KEY")) return true;

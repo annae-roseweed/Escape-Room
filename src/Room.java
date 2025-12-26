@@ -12,6 +12,7 @@ public class Room extends GameComponent {
         this.isExit = isExit;
         contents = new ArrayList<>();
         connectedRooms = new ArrayList<>();
+        requiresKey = false;
     }
     
     public void addSubRoom(Room sr) {
@@ -38,13 +39,17 @@ public class Room extends GameComponent {
     public boolean requiresKey(){
         return requiresKey;
     }
+
+    public void unlock(){
+        requiresKey = false;
+    }
       
 
     public void look() {
         System.out.println("Room: " + name);
-        if (requiresKey) {
-            System.out.println("This room requires a key to enter.");
-        }
+        // if (requiresKey) {
+        //     System.out.println("This room requires a key to enter.");
+        // }
         for (GameComponent gc : contents) {
             gc.inspect();
             System.out.println();
