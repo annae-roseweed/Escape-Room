@@ -105,7 +105,9 @@ public class GameEngine {
 
             case "SUB":
                 //explore subroom, do the process the same as the above
-            
+            case "INVENTORY":
+            case "MAP":
+            case "LOOK":
             default:
                 throw new InvalidCommandException("Invalid input.\n");
         }

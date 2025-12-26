@@ -18,5 +18,10 @@ public class Driver {
     room4.connectRoom(room5);
     room5.connectRoom(room4);
     Player you = new Player();
+    Item pen = new Item("Pen from the Void", 1, 2, true);
+    Item key = new Item("Key from the Void", 1, 1, true);
+    Item clue1 = new Item("Clueless clue", 1, 3, true);
+    Item statue = new Item("Totally not heavy statue", 1, 2, false);
+
     }
 }
