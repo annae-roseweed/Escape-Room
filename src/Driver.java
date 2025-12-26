@@ -6,5 +6,17 @@ public class Driver {
     Room room4 = new Room("Backroom 4", false);
     Room room5 = new Room("Backroom 5", true);
     Room rRoom2 = new Room("Backroom of Backroom 2", false);
+    Room rRoom3 = new Room("Backroom of Backroom 3", false);
+    room2.addSubRoom(rRoom2);
+    room3.addSubRoom(rRoom3);
+    room1.connectRoom(room2);
+    room2.connectRoom(room1);
+    room2.connectRoom(room3);
+    room3.connectRoom(room2);
+    room3.connectRoom(room4);
+    room4.connectRoom(room3);
+    room4.connectRoom(room5);
+    room5.connectRoom(room4);
+    Player you = new Player();
     }
 }
