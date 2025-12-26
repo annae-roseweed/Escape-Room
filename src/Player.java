@@ -7,13 +7,28 @@ public class Player {
     private ArrayList<Item> inventory;
     private Room currentRoom;
 
+    public Player() {
+        moveHistory = new Stack<>();
+        inventory = new ArrayList<>();
+        currentRoom = start;
+        moveHistory.push(start);
+    }
+    
+    public void addItem(Item item){
+        inventory.add(item);
+        currentRoom.getContents().remove(item);
+    }
+
     public void moveTo(Room r){
         moveHistory.push(r);
     }
 
     public void goBack(){
+        if (moveHistory.size() > 1){
         moveHistory.pop();
+        }
     }
+
     public Room getCurrentRoom(){
         return moveHistory.peek();
     

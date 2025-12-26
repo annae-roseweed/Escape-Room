@@ -18,9 +18,19 @@ public class Driver {
     room4.connectRoom(room5);
     room5.connectRoom(room4);
     Player you = new Player();
+    you.moveTo(room1);
     Item pen = new Item("Pen from the Void", 1, 2, true);
     Item key = new Item("Key from the Void", 1, 1, true);
     Item clue1 = new Item("Clueless clue", 1, 3, true);
     Item statue = new Item("Totally not heavy statue", 1, 2, false);
+
+    room1.addComponent(pen);
+    room2.addComponent(key);
+    room3.addComponent(clue1);
+    room2.addComponent(statue);
+    
+    GameEngine engine = new GameEngine(you);
+    engine.run();
+
     }
 }

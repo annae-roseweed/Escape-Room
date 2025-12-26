@@ -10,20 +10,40 @@ public class GameEngine {
     private int queueCount;
 
     GameEngine(Player p){
-        p = new Player();
+        this.p = p;
         scan = new Scanner(System.in);
         queueCount = 0;
     }
 
     public void start(int cap){
         if(map.size() != cap){
-            return; //The map is incomplete
+            return; //The map is incomplete 
             
         }
         else{
         p.moveTo(map.get(0)); //start game
         }
     }
+//MAIN GAME LOOP
+    public void run() {
+        System.out.println("Welcome to the Backrooms.");
+
+        while (!winConditionCheck()) {
+            printStatus(p);
+            System.out.print("> ");
+
+            String cmd = scan.nextLine().toUpperCase();
+
+            try {
+                processCommand(cmd);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        System.out.println("You escaped. Game over.");
+    }
+
     public void processCommand(String cmd) throws InvalidCommandException, InvalidPuzzleAnswerException{
         //player does puzzle, move here
         //"Choose your option.");

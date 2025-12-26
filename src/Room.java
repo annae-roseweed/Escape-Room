@@ -17,6 +17,7 @@ public class Room extends GameComponent {
     
     public void addSubRoom(Room sr) {
         this.contents.add(sr);
+        this.connectedRooms.add(sr);
         sr.connectedRooms.add(this);
     }
 
@@ -30,6 +31,10 @@ public class Room extends GameComponent {
 
     public boolean isExit() {
         return isExit;
+    }
+
+    public ArrayList<Room> getConnectedRooms(){
+        return connectedRooms;
     }
 
     public ArrayList<GameComponent> getContents(){
