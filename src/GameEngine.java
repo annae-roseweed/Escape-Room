@@ -9,9 +9,8 @@ public class GameEngine {
     private Scanner scan;
     private int queueCount;
 
-    GameEngine(Player p, int cap){
+    GameEngine(Player p){
         p = new Player();
-        this.cap = cap;
         scan = new Scanner(System.in);
         queueCount = 0;
     }
@@ -106,6 +105,8 @@ public class GameEngine {
             case "SUB":
                 //explore subroom, do the process the same as the above
             case "INVENTORY":
+                p.printInventory();
+                break;
             case "MAP":
             case "LOOK":
             default:
@@ -115,7 +116,7 @@ public class GameEngine {
 
 
     public void printStatus(Player p){
-        System.out.println(p.getCurrentRoom() + "/" + cap); //show the current position of the player
+        System.out.println(p.getCurrentRoom().name); //show the current position of the player
     }
 
     public boolean winConditionCheck(){return (map.isEmpty());}

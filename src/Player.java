@@ -24,7 +24,14 @@ public class Player {
         inventory.remove(0);
         }
     }
-    
+    public void printInventory(){
+        if (!inventory.isEmpty()){
+        System.out.println("INVENTORY:");
+        for (Item i : inventory){
+            System.out.println(i.getName());
+        }}
+        else System.out.println("You have no item!");
+    }
     public boolean hasKey(){ //Find if the inventory of the player has at least a key
         for (Item i : inventory){
             if (i.getType().toUpperCase().equals("KEY")) return true;

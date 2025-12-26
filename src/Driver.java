@@ -22,6 +22,5 @@ public class Driver {
     Item key = new Item("Key from the Void", 1, 1, true);
     Item clue1 = new Item("Clueless clue", 1, 3, true);
     Item statue = new Item("Totally not heavy statue", 1, 2, false);
-
     }
 }
