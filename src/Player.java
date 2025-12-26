@@ -10,8 +10,8 @@ public class Player {
     public Player() {
         moveHistory = new Stack<>();
         inventory = new ArrayList<>();
-        currentRoom = start;
-        moveHistory.push(start);
+        currentRoom = new Room("Start", false);
+        moveHistory.push(currentRoom);
     }
     
     public void addItem(Item item){

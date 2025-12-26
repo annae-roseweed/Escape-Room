@@ -30,6 +30,11 @@ public class Driver {
     room2.addComponent(statue);
     
     GameEngine engine = new GameEngine(you);
+    engine.mapInit(room1);
+    engine.mapInit(room2);
+    engine.mapInit(room3);
+    engine.mapInit(room4);
+    engine.mapInit(room5);
     engine.run();
 
     }

@@ -11,7 +11,6 @@ public class Item extends GameComponent implements Collectable, Comparable<Item>
             case 0 -> itemType = "KEY";
             case 1 -> itemType = "TOOL";
             case 2 -> itemType = "CLUE";
-            default -> throw new AssertionError();
         }
         this.collectible = collectible;
     }

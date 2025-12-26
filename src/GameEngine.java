@@ -2,9 +2,8 @@ import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Scanner;
 public class GameEngine {
-    private ArrayList<Room> map;
+    private ArrayList<Room> map = new ArrayList<>();
     private Queue<String> hintQueue;
-    private int cap;
     private Player p;
     private Scanner scan;
     private int queueCount;
@@ -14,7 +13,10 @@ public class GameEngine {
         scan = new Scanner(System.in);
         queueCount = 0;
     }
-
+    public void mapInit(Room r)
+    {
+        map.add(r);
+    }
     public void start(int cap){
         if(map.size() != cap){
             return; //The map is incomplete 
