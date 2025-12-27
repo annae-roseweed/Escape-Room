@@ -37,6 +37,10 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
         return hints.remove(); //return ref then remove out of the queue
     }
 
+    public void setIsSolved(boolean isSolved){
+        this.isSolved = isSolved;
+    }
+
     @Override 
     public int compareTo(Puzzle rhs){
         return this.difficulty - rhs.difficulty;
@@ -44,7 +48,7 @@ public abstract class Puzzle extends GameComponent implements Comparable<Puzzle>
 
     @Override
     public void inspect(){
-        System.out.print("PUZZLE\nDifficulty: " + difficulty + "\t" + "Complete: " + (isSolved ? "No" : "Yes") + "\n" + content);
+        System.out.print("PUZZLE: " + getName() + "\nDifficulty: " + difficulty + "\t" + "Complete: " + ((isSolved == false)? "No" : "Yes") + "\n" + content);
     }
     public abstract boolean attemptSolve(String answer) throws InvalidPuzzleAnswerException;
 }

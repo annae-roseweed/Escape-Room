@@ -87,14 +87,15 @@ public String getRequiredKeyName() {
     Mark = true;
 
     // Print the room name with indentation
-    System.out.println("  ".repeat(depth) + name);
-
+    
     // Recurse through sub-rooms
     for (GameComponent gc : contents) {
         if (gc instanceof Room subRoom) {
             subRoom.exploreRecursive(depth + 1);
         }
     }
+
+    System.out.println("  ".repeat(depth) + name);
 
     // Recurse through connected rooms
     for (Room conn : connectedRooms) {

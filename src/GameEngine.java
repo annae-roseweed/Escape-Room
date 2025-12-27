@@ -116,12 +116,21 @@ public class GameEngine {
         ArrayList<Puzzle> puzzles = new ArrayList<>();
         for (GameComponent gc : p.getCurrentRoom().getContents()) {
             if (gc instanceof Puzzle puzzle && gc.getName().equalsIgnoreCase(puzzleName)) {
+                
                 puzzles.add(puzzle);
+                if (puzzle.getIsSolved() == true){
+                    System.out.println("This puzzle is already finish");
+                    break;
+                }
+                else{
                 puzzle.inspect();
+                }
                 System.out.print("\nEnter answer: ");
                 String ans = scan.nextLine();
+                
                 if (puzzle.attemptSolve(ans)) {
                     System.out.println("Puzzle solved!");
+                    puzzle.setIsSolved(true);
                     hintQueue.add(puzzle.getHint()); // add hint for later
                 }
                 // insertion sort puzzles by difficulty
