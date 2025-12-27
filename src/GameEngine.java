@@ -31,11 +31,7 @@ public class GameEngine {
             } catch (InvalidCommandException | InvalidPuzzleAnswerException | LockedRoomException e) {
                 System.out.println(e.getMessage());
             }
-
-            turnCounter++;
-            if (turnCounter % 3 == 0 && !hintQueue.isEmpty()) {
-                System.out.println("HINT: " + hintQueue.poll());
-            }
+            
         }
 
         System.out.println("You escaped. Game over!");
@@ -114,25 +110,46 @@ public class GameEngine {
     // Solve a puzzle in the current room
     private void solvePuzzle(String puzzleName) throws InvalidPuzzleAnswerException {
         ArrayList<Puzzle> puzzles = new ArrayList<>();
+        int queueCount = 0;
         for (GameComponent gc : p.getCurrentRoom().getContents()) {
             if (gc instanceof Puzzle puzzle && gc.getName().equalsIgnoreCase(puzzleName)) {
-                
-                puzzles.add(puzzle);
-                if (puzzle.getIsSolved() == true){
-                    System.out.println("This puzzle is already finish");
+                boolean On = true;
+                while(On == true){
+    
+                if (puzzle.getIsSolved()) {
+                    System.out.println("This puzzle is already finished");
                     break;
                 }
-                else{
-                puzzle.inspect();
+                puzzles.add(puzzle);
+    
+                int attempts = 0; // track failed attempts
+    
+                while (!puzzle.getIsSolved()) {
+                    puzzle.inspect();
+                    System.out.print("\nEnter answer: ");
+                    String ans = scan.nextLine();
+    
+                    if (puzzle.attemptSolve(ans)) {
+                        System.out.println("Puzzle solved!");
+                        puzzle.setIsSolved(true);
+                        queueCount++;
+                        hintQueue.clear(); // clear the hint of the completed puzzle
+                        On = false;
+                        break;
+                    } else {
+                        attempts++;
+                        System.out.println("Incorrect answer.");
+    
+                        // Every 3 failed attempts, show a hint
+                        if (attempts % 3 == 0 && !hintQueue.isEmpty() && queueCount != 0) {
+                            System.out.println("Hint: " + puzzle.getHint());
+                            queueCount--;
+                            hintQueue.add(puzzle.getHint()); 
+                        }
+                    }
                 }
-                System.out.print("\nEnter answer: ");
-                String ans = scan.nextLine();
-                
-                if (puzzle.attemptSolve(ans)) {
-                    System.out.println("Puzzle solved!");
-                    puzzle.setIsSolved(true);
-                    hintQueue.add(puzzle.getHint()); // add hint for later
-                }
+            }
+    
                 // insertion sort puzzles by difficulty
                 sortPuzzles(puzzles);
                 return;
