@@ -26,16 +26,16 @@ public class Driver {
     room3.addSubRoom(rRoom3);
 
     Player you = new Player();
-    Item pen = new Item("pen", 1, 1, true);
+    Item pen = new Item("pen", 3, 1, true);
     Item key = new Item("Key from the Void", 1, 0, true);
-    Item clue1 = new Item("Clueless clue", 1, 2, true);
-    Item statue = new Item("Totally not heavy statue", 1, 1, false);
+    Item clue1 = new Item("Clueless clue", 2, 2, true);
+    Item statue = new Item("Totally not heavy statue", 19, 1, false);
 
     room1.addComponent(pen);
     room2.addComponent(key);
     room3.addComponent(clue1);
     room2.addComponent(statue);
-
+    room4.setRequiredKey("Key from the Void");
     room1.connectRoom(room2);
     room2.connectRoom(room3);
     room3.connectRoom(room4);
