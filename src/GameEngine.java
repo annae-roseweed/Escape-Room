@@ -67,10 +67,14 @@ public class GameEngine {
                 break;
 
             case "SOLVE":
-                if (parts.length < 2) throw new InvalidCommandException("Specify puzzle name.");
-                solvePuzzle(parts[1]);
+                  if (parts.length < 2) {
+                System.out.println("Specify a puzzle to solve.");
+                } else {
+                // Call solvePuzzle and let it handle all attempts
+                solvePuzzle(parts[1].trim());
+            }
                 break;
-
+                
             case "MAP":
                 p.getCurrentRoom().exploreRecursive(0);
                 break;
@@ -108,55 +112,64 @@ public class GameEngine {
     }
 
     // Solve a puzzle in the current room
-    private void solvePuzzle(String puzzleName) throws InvalidPuzzleAnswerException {
-        ArrayList<Puzzle> puzzles = new ArrayList<>();
-        int queueCount = 0;
-        for (GameComponent gc : p.getCurrentRoom().getContents()) {
-            if (gc instanceof Puzzle puzzle && gc.getName().equalsIgnoreCase(puzzleName)) {
-                boolean On = true;
-                while(On == true){
-    
-                if (puzzle.getIsSolved()) {
-                    System.out.println("This puzzle is already finished");
-                    break;
-                }
-                puzzles.add(puzzle);
-    
-                int attempts = 0; // track failed attempts
-    
-                while (!puzzle.getIsSolved()) {
-                    puzzle.inspect();
-                    System.out.print("\nEnter answer: ");
-                    String ans = scan.nextLine();
-    
-                    if (puzzle.attemptSolve(ans)) {
-                        System.out.println("Puzzle solved!");
-                        puzzle.setIsSolved(true);
-                        queueCount++;
-                        hintQueue.clear(); // clear the hint of the completed puzzle
-                        On = false;
-                        break;
-                    } else {
-                        attempts++;
-                        System.out.println("Incorrect answer.");
-    
-                        // Every 3 failed attempts, show a hint
-                        if (attempts % 3 == 0 && !hintQueue.isEmpty() && queueCount != 0) {
-                            System.out.println("Hint: " + puzzle.getHint());
-                            queueCount--;
-                            hintQueue.add(puzzle.getHint()); 
-                        }
-                    }
-                }
+    private void solvePuzzle(String puzzleName) {
+    ArrayList<Puzzle> puzzles = new ArrayList<>();
+    Puzzle targetPuzzle = null;
+
+    // Find the puzzle in the current room
+    for (GameComponent gc : p.getCurrentRoom().getContents()) {
+        if (gc instanceof Puzzle puzzle && puzzle.getName().equalsIgnoreCase(puzzleName)) {
+            targetPuzzle = puzzle;
+            break;
+        }
+    }
+
+    // Puzzle not found
+    if (targetPuzzle == null) {
+        System.out.println("Puzzle not found: " + puzzleName);
+        return;
+    }
+
+    // Already solved
+    if (targetPuzzle.getIsSolved()) {
+        System.out.println("This puzzle is already finished");
+        return;
+    }
+
+    puzzles.add(targetPuzzle);
+    int attempts = 0;
+
+    // Loop until the puzzle is solved
+    while (!targetPuzzle.getIsSolved()) {
+        targetPuzzle.inspect();
+        System.out.print("\nEnter answer: ");
+        String ans = scan.nextLine();
+
+        try {
+            if (targetPuzzle.attemptSolve(ans)) {
+                System.out.println("Puzzle solved!");
+                targetPuzzle.setIsSolved(true);
+                hintQueue.add(targetPuzzle.getHint()); // store hint if needed
             }
-    
-                // insertion sort puzzles by difficulty
-                sortPuzzles(puzzles);
-                return;
+        } catch (InvalidPuzzleAnswerException e) {
+            // Catch incorrect answers or invalid input
+            attempts++;
+            System.out.print(e.getMessage()); // display the error message
+
+            // Show hint every 3 failed attempts
+            if (attempts % 3 == 0) {
+                System.out.println("Hint: " + targetPuzzle.getHint());
             }
         }
-        System.out.println("Puzzle not found: " + puzzleName);
     }
+
+    // Optional: sort puzzles by difficulty
+    sortPuzzles(puzzles);
+}
+
+
+
+
 
     // Insertion sort for puzzles
     private void sortPuzzles(ArrayList<Puzzle> puzzles) {
